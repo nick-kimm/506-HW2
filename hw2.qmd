@@ -50,19 +50,26 @@ play_dice(10)
 #Version 2: Vectorized functions in R
 ```{r}
 play_dice2 <- function(x){
-  winnings <- 0
   rolls <- sample(1:6,x,replace=TRUE)
-  rolls_r <- (rolls==3 | rolls==5)
-  
+  winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4)
+  print(rolls)
+  return(winnings)
 }
 
 play_dice2(10)
 ```
 
 ```{r}
-rolls <- sample(1:6,10,replace=TRUE)
+#rolls <- sample(1:6,10,replace=TRUE)
+#rolls_r <- (rolls==3 | rolls==5)*4
+#winnings=sum((rolls_r==0)*-2+rolls_r)
+#print(winnings)
+#print(rolls)
+
+rolls = as.vector(c(2, 3,5,3,1,6,2,2,1,2))
 rolls_r <- (rolls==3 | rolls==5)*4
 winnings=sum((rolls_r==0)*-2+rolls_r)
 print(winnings)
-print(rolls)
+print(sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4))
+
 ```
