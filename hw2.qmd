@@ -31,14 +31,14 @@ Output: Total winnings
 #'
 #' @return Total Winnings a/f x number of rolls
 play_dice <- function(x){
-  winnings = 0
+  winnings <- 0
   for (i in 1:x){
     rolls <- sample(1:6,x,replace=TRUE)
     if (rolls[i]==3 | rolls[i]==5){
-      winnings = winnings + 2
+      winnings <- winnings + 2
     }
     else{
-      winnings = winnings - 2
+      winnings <- winnings - 2
     }
   }
   return(winnings)
@@ -50,8 +50,19 @@ play_dice(10)
 #Version 2: Vectorized functions in R
 ```{r}
 play_dice2 <- function(x){
+  winnings <- 0
+  rolls <- sample(1:6,x,replace=TRUE)
+  rolls_r <- (rolls==3 | rolls==5)
   
 }
+
+play_dice2(10)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+rolls <- sample(1:6,10,replace=TRUE)
+rolls_r <- (rolls==3 | rolls==5)*4
+winnings=sum((rolls_r==0)*-2+rolls_r)
+print(winnings)
+print(rolls)
+```
