@@ -6,23 +6,52 @@ format:
     embed-resources: true
 ---
 
-## Problem 1
+Link to my GitHub: <https://github.com/nick-kimm/506-HW2>.
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+## Problem 1: Dice Game
 
-## Running Code
+Let’s play a dice game. It costs $2 to play. You roll a single 6-sided die.
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+-On a roll of 3 or 5, you win twice your roll.
+-On any other roll, you lose.
 
+The input and output should be:
+
+Input: The number of dice to roll.
+Output: Total winnings
+
+#Part a:
+#Version 1: Loop
 ```{r}
-1 + 1
+#' Version 1 Dice Game
+#'Will implement the Dice Game using a for loop. Every roll is $2, if you roll a 3 or a 5 you earn double
+#'what you put in. Otherwise you loose.
+#'
+#' @param x (number of rolls)
+#'
+#' @return Total Winnings a/f x number of rolls
+play_dice <- function(x){
+  winnings = 0
+  for (i in 1:x){
+    rolls <- sample(1:6,x,replace=TRUE)
+    if (rolls[i]==3 | rolls[i]==5){
+      winnings = winnings + 2
+    }
+    else{
+      winnings = winnings - 2
+    }
+  }
+  return(winnings)
+}
+
+play_dice(10)
 ```
 
-You can add options to executable code like this
-
+#Version 2: Vectorized functions in R
 ```{r}
-#| echo: false
-2 * 2
+play_dice2 <- function(x){
+  
+}
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
