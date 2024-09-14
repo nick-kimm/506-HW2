@@ -49,27 +49,27 @@ play_dice(10)
 
 #Version 2: Vectorized functions in R
 ```{r}
+#' Version 2 Dice Game
+#'Samples the random roll for x number of rolls. Next will calculate the winnings by checking if the roll isn't a 3 or a 5 and then multiplying it by -2 as you'll lose that much in this game. Then it'll add it to the rolls that are 3 or a 5 by 4 as you would double the amount you put in ($2). Finally sum over this whole vector to get your total winnings after x rolls
+#' @param x 
+#'
+#' @return Total winnings 
+#'
+#' @examples rolls = 2 5 2 6 4 2 1 3 5 6
+#' winnings = sum(-2 0 -2 -2 -2 -2 -2 0 0 -2 (1st conditionals) + 0 4 0 0 0 0 0 4 4 0 (2nd conditional))
+#' winnings = sum(-2 4 -2 -2 -2 -2 -2 4 4 -2)
+#' winnings = -2 
 play_dice2 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
   winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4)
-  print(rolls)
   return(winnings)
 }
 
 play_dice2(10)
 ```
 
+#Version 3: Table approach
 ```{r}
-#rolls <- sample(1:6,10,replace=TRUE)
-#rolls_r <- (rolls==3 | rolls==5)*4
-#winnings=sum((rolls_r==0)*-2+rolls_r)
-#print(winnings)
-#print(rolls)
 
-rolls = as.vector(c(2, 3,5,3,1,6,2,2,1,2))
-rolls_r <- (rolls==3 | rolls==5)*4
-winnings=sum((rolls_r==0)*-2+rolls_r)
-print(winnings)
-print(sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4))
 
 ```
