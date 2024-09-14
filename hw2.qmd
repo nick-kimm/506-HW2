@@ -54,10 +54,10 @@ play_dice(10)
 #'
 #' @return Total winnings 
 #'
-#' @examples rolls = 2 5 2 6 4 2 1 3 5 6
-#' winnings = sum(-2 0 -2 -2 -2 -2 -2 0 0 -2 (1st conditionals) + 0 4 0 0 0 0 0 4 4 0 (2nd conditional))
-#' winnings = sum(-2 4 -2 -2 -2 -2 -2 4 4 -2)
-#' winnings = -2 
+#' @examples rolls <- 2 5 2 6 4 2 1 3 5 6
+#' winnings <- sum(-2 0 -2 -2 -2 -2 -2 0 0 -2 (1st conditionals) + 0 4 0 0 0 0 0 4 4 0 (2nd conditional))
+#' winnings <- sum(-2 4 -2 -2 -2 -2 -2 4 4 -2)
+#' winnings <- -2 
 play_dice2 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
   winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4)
@@ -69,6 +69,24 @@ play_dice2(10)
 
 #Version 3: Table approach
 ```{r}
+play_dice3 <- function(x){
+  rolls <- sample(1:6,10,replace=TRUE)
+  roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
+  print(rolls)
+  return(sum(test[,2]*4-(test[,1]*2)))
+}
 
+play_dice3(10)
+```
+
+```{r}
+rolls <- sample(1:6,10,replace=TRUE)
+print(rolls)
+test=table(rolls,ifelse((rolls==3|rolls==5),1,0))
+print(test)
+sum(test[,2]*4-(test[,1]*2))
 
 ```
+
+
+
