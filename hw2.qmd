@@ -24,8 +24,7 @@ Output: Total winnings
 #Version 1: Loop
 ```{r}
 #' Version 1 Dice Game
-#'Will implement the Dice Game using a for loop. Every roll is $2, if you roll a 3 or a 5 you earn double
-#'what you put in. Otherwise you loose.
+#'Will implement the Dice Game using a for loop. Will check each index in the simulated rolls and will check if that number if either a 3 or a 5. If it is then it'll increase the total winnings by 2 as that is the next profit from that roll. If it neither then it'll subtract 2 from the winnings as that is the cost of this situation. 
 #'
 #' @param x (number of rolls)
 #'
