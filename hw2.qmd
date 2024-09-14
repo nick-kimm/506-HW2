@@ -71,11 +71,19 @@ play_dice2(10)
 ```{r}
 play_dice3 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
+  if (length(rolls==1)){
+    ifelse((rolls==3|rolls==5),return(4),return(-2))
+  }
   roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
   return(sum(roll_t[,2]*4-(roll_t[,1]*2)))
 }
 
-play_dice3(10)
+play_dice3(1)
+```
+
+```{r}
+rolls <- sample(1:6,1,replace=TRUE)
+roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
 ```
 
 #Version 4: Apply function
