@@ -70,21 +70,20 @@ play_dice2(10)
 #Version 3: Table approach
 ```{r}
 play_dice3 <- function(x){
-  rolls <- sample(1:6,10,replace=TRUE)
+  rolls <- sample(1:6,x,replace=TRUE)
   roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
-  print(rolls)
-  return(sum(test[,2]*4-(test[,1]*2)))
+  return(sum(roll_t[,2]*4-(roll_t[,1]*2)))
 }
 
 play_dice3(10)
 ```
 
+#Version 4: Apply function
 ```{r}
 rolls <- sample(1:6,10,replace=TRUE)
 print(rolls)
-test=table(rolls,ifelse((rolls==3|rolls==5),1,0))
-print(test)
-sum(test[,2]*4-(test[,1]*2))
+test = table(rolls)
+apply(test,1,sum)
 
 ```
 
