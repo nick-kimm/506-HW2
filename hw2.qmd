@@ -182,37 +182,9 @@ x <- 3
 seed <- 100
 
 microbenchmark(
-  v1<- play_dice_seed <- function(x,seed){
-  set.seed(seed)
-  rolls <- sample(1:6,x,replace=TRUE)
-  winnings <- 0
-  for (i in 1:x){
-    if (rolls[i]==3 | rolls[i]==5){
-      winnings <- winnings + 4
-    }
-    else{
-      winnings <- winnings - 2
-    }
-  }
-  return(winnings)
-},
-v2 <- play_dice2_seed <- function(x,seed){
-  set.seed(seed)
-  rolls <- sample(1:6,x,replace=TRUE)
-  winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4)
-  return(winnings)
-},
-v3 <- play_dice3_seed <- function(x,seed){
-  set.seed(seed)
-  rolls <- sample(1:6,x,replace=TRUE)
-  roll_t<-table(factor(rolls, levels = 1:6))
-  return((roll_t[["3"]]+roll_t[["5"]])*4-(roll_t[["1"]]+roll_t[["2"]]+roll_t[["4"]]+roll_t[["6"]])*2)
-},
-v4 <- play_dice4_seed <- function(x,seed){
-  set.seed(seed)
-  rolls <- sample(1:6,x,replace=TRUE)
-  profit <- matrix(ifelse((rolls==3|rolls==5),4,-2))
-  return(apply(profit,2,sum))
-}
+  v1 <- {play_dice_seed(x,seed)},
+  v2 <- {play_dice2_seed(x,seed)},
+  v3 <- {play_dice3_seed(x,seed)},
+  v4 <- {play_dice4_seed(x,seed)},
 )
 ```
