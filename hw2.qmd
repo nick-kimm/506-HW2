@@ -69,29 +69,49 @@ play_dice2(10)
 
 #Version 3: Table approach
 ```{r}
+#' Version 3 Dice Game
+#'
+#' @param x 
+#'
+#' @return Total winnings 
+#'
+#' @examples
 play_dice3 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
-  if (length(rolls==1)){
-    ifelse((rolls==3|rolls==5),return(4),return(-2))
-  }
   roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
   return(sum(roll_t[,2]*4-(roll_t[,1]*2)))
 }
 
-play_dice3(1)
+play_dice3(10)
 ```
 
 ```{r}
 rolls <- sample(1:6,1,replace=TRUE)
-roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
+roll_t=table(rolls)
+test = table(rolls,ifelse((rolls==3|rolls==5),1,0))
+
+
+print(roll_t)
+print(test)
 ```
+
 
 #Version 4: Apply function
 ```{r}
+play_dice4 <- function(x){
+  rolls <- sample(1:6,10,replace=TRUE)
+  profit <- matrix(ifelse((rolls==3|rolls==5),4,-2))
+  return(apply(t,2,sum))
+}
+
+play_dice4(10)
+
+
 rolls <- sample(1:6,10,replace=TRUE)
 print(rolls)
-test = table(rolls)
-apply(test,1,sum)
+t<-matrix(ifelse((rolls==3|rolls==5),4,-2))
+print(t)
+print(apply(t,2,sum))
 
 ```
 
