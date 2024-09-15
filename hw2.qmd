@@ -24,7 +24,7 @@ Output: Total winnings
 #Version 1: Loop
 ```{r}
 #' Version 1 Dice Game
-#'Will implement the Dice Game using a for loop. Will check each index in the simulated rolls and will check if that number if either a 3 or a 5. If it is then it'll increase the total winnings by 2 as that is the next profit from that roll. If it neither then it'll subtract 2 from the winnings as that is the cost of this situation. 
+#'Will implement the Dice Game using a for loop. Will check each index in the simulated rolls and will check if that number if either a 3 or a 5. If it is then it'll increase the total winnings by 4 as that is the net profit from that roll. If it neither then it'll subtract 2 from the winnings as that is the cost of this situation. 
 #'
 #' @param x (number of rolls)
 #'
@@ -173,13 +173,20 @@ c(play_dice3_seed(3,seed),play_dice3_seed(3000,seed))
 print("v4")
 c(play_dice4_seed(3,seed),play_dice4_seed(3000,seed))
 ```
+#Part d:
 
 ```{r}
-set.seed(100)
-rolls <- sample(1:6,3,replace=TRUE)
-print(rolls)
+library(microbenchmark)
+
+x <- 3
+seed <- 100
+
+microbenchmark(
+  v1<- play_dice_seed <- function(x,seed){
+  set.seed(seed)
+  rolls <- sample(1:6,x,replace=TRUE)
   winnings <- 0
-  for (i in 1:3){
+  for (i in 1:x){
     if (rolls[i]==3 | rolls[i]==5){
       winnings <- winnings + 4
     }
@@ -187,5 +194,25 @@ print(rolls)
       winnings <- winnings - 2
     }
   }
-print(winnings)
+  return(winnings)
+},
+v2 <- play_dice2_seed <- function(x,seed){
+  set.seed(seed)
+  rolls <- sample(1:6,x,replace=TRUE)
+  winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4)
+  return(winnings)
+},
+v3 <- play_dice3_seed <- function(x,seed){
+  set.seed(seed)
+  rolls <- sample(1:6,x,replace=TRUE)
+  roll_t<-table(factor(rolls, levels = 1:6))
+  return((roll_t[["3"]]+roll_t[["5"]])*4-(roll_t[["1"]]+roll_t[["2"]]+roll_t[["4"]]+roll_t[["6"]])*2)
+},
+v4 <- play_dice4_seed <- function(x,seed){
+  set.seed(seed)
+  rolls <- sample(1:6,x,replace=TRUE)
+  profit <- matrix(ifelse((rolls==3|rolls==5),4,-2))
+  return(apply(profit,2,sum))
+}
+)
 ```
