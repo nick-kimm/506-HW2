@@ -70,14 +70,31 @@ play_dice2(10)
 #Version 3: Table approach
 ```{r}
 #' Version 3 Dice Game
-#'
+#'First it'll check if the number of rolls is 1 as this will break the indexing solution I have for the table. If it is the case x=1 then it'll check if the roll is either a 3 or a 5 and return 4 if that's true, -2 otherwise. In the case x>1 then it'll create a new column that will strictly count the number of times 3 or a 5 were rolled. Then we will sum the values in the first column and multiply that by 2 and subtract that value from the values in column 2 which we multiplied by 4 to get our total winnings.
 #' @param x 
 #'
 #' @return Total winnings 
 #'
-#' @examples
+#' @examples rolls <- 2 4 5 6 3 1
+#' roll_t <- rolls 0 1
+#'             1   1 0
+#'             2   1 0
+#'             3   0 1
+#'             4   1 0
+#'             5   0 1
+#'             6   1 0
+#' 
+#' transformed roll_t <- rolls 0 1
+#'                         1  -2 0
+#'                         2  -2 0
+#'                         3   0 4
+#'                         4  -2 0
+#'                         5   0 4
+#'                         6  -2 0
+#'output <- 0
 play_dice3 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
+  ifelse(x==1&(rolls==3|rolls==5),return(4),return(-2))
   roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
   return(sum(roll_t[,2]*4-(roll_t[,1]*2)))
 }
@@ -86,7 +103,8 @@ play_dice3(10)
 ```
 
 ```{r}
-rolls <- sample(1:6,1,replace=TRUE)
+x=10
+rolls <- sample(1:6,x,replace=TRUE)
 roll_t=table(rolls)
 test = table(rolls,ifelse((rolls==3|rolls==5),1,0))
 
@@ -94,7 +112,9 @@ test = table(rolls,ifelse((rolls==3|rolls==5),1,0))
 print(roll_t)
 print(test)
 ```
-
+```{r}
+x==1&(rolls==3|rolls==5)
+```
 
 #Version 4: Apply function
 ```{r}
