@@ -94,26 +94,14 @@ play_dice2(10)
 #'output <- 0
 play_dice3 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
-  ifelse(x==1&(rolls==3|rolls==5),return(4),return(-2))
+  if (x==1){
+    ifelse((rolls==3|rolls==5),return(4),return(-2))
+  }
   roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
   return(sum(roll_t[,2]*4-(roll_t[,1]*2)))
 }
 
 play_dice3(10)
-```
-
-```{r}
-x=10
-rolls <- sample(1:6,x,replace=TRUE)
-roll_t=table(rolls)
-test = table(rolls,ifelse((rolls==3|rolls==5),1,0))
-
-
-print(roll_t)
-print(test)
-```
-```{r}
-x==1&(rolls==3|rolls==5)
 ```
 
 #Version 4: Apply function
@@ -124,9 +112,9 @@ x==1&(rolls==3|rolls==5)
 #'
 #' @return Total winnings
 #'
-#' @examples rolls = 6 4 6 3 
-#' profit = [-2 -2 -2 4]^T
-#' output = -2
+#' @examples rolls <- 6 4 6 3 
+#' profit <- [-2 -2 -2 4]^T
+#' output <- -2
 play_dice4 <- function(x){
   rolls <- sample(1:6,10,replace=TRUE)
   profit <- matrix(ifelse((rolls==3|rolls==5),4,-2))
