@@ -34,7 +34,7 @@ play_dice <- function(x){
   winnings <- 0
   for (i in 1:x){
     if (rolls[i]==3 | rolls[i]==5){
-      winnings <- winnings + 2
+      winnings <- winnings + 4
     }
     else{
       winnings <- winnings - 2
@@ -129,7 +129,7 @@ play_dice_seed <- function(x,seed){
   winnings <- 0
   for (i in 1:x){
     if (rolls[i]==3 | rolls[i]==5){
-      winnings <- winnings + 2
+      winnings <- winnings + 4
     }
     else{
       winnings <- winnings - 2
@@ -160,9 +160,32 @@ play_dice4_seed <- function(x,seed){
 }
 ```
 
+Next testing if it'll get the same values
 ```{r}
-set.seed(0)
-rolls <- sample(1:6,4,replace=TRUE)
-roll_t<-table(factor(rolls, levels = 1:6))
-roll_t[["1"]]
+seed = 100
+
+print("v1")
+c(play_dice_seed(3,seed),play_dice_seed(3000,seed))
+print("v2")
+c(play_dice2_seed(3,seed),play_dice2_seed(3000,seed))
+print("v3")
+c(play_dice3_seed(3,seed),play_dice3_seed(3000,seed))
+print("v4")
+c(play_dice4_seed(3,seed),play_dice4_seed(3000,seed))
+```
+
+```{r}
+set.seed(100)
+rolls <- sample(1:6,3,replace=TRUE)
+print(rolls)
+  winnings <- 0
+  for (i in 1:3){
+    if (rolls[i]==3 | rolls[i]==5){
+      winnings <- winnings + 4
+    }
+    else{
+      winnings <- winnings - 2
+    }
+  }
+print(winnings)
 ```
