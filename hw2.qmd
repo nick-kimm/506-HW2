@@ -30,9 +30,9 @@ Output: Total winnings
 #'
 #' @return Total Winnings a/f x number of rolls
 play_dice <- function(x){
+  rolls <- sample(1:6,x,replace=TRUE)
   winnings <- 0
   for (i in 1:x){
-    rolls <- sample(1:6,x,replace=TRUE)
     if (rolls[i]==3 | rolls[i]==5){
       winnings <- winnings + 2
     }
@@ -42,8 +42,6 @@ play_dice <- function(x){
   }
   return(winnings)
 }
-
-play_dice(10)
 ```
 
 #Version 2: Vectorized functions in R
@@ -63,8 +61,6 @@ play_dice2 <- function(x){
   winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4)
   return(winnings)
 }
-
-play_dice2(10)
 ```
 
 #Version 3: Table approach
@@ -100,8 +96,6 @@ play_dice3 <- function(x){
   roll_t=table(rolls,ifelse((rolls==3|rolls==5),1,0))
   return(sum(roll_t[,2]*4-(roll_t[,1]*2)))
 }
-
-play_dice3(10)
 ```
 
 #Version 4: Apply function
@@ -116,12 +110,10 @@ play_dice3(10)
 #' profit <- [-2 -2 -2 4]^T
 #' output <- -2
 play_dice4 <- function(x){
-  rolls <- sample(1:6,10,replace=TRUE)
+  rolls <- sample(1:6,x,replace=TRUE)
   profit <- matrix(ifelse((rolls==3|rolls==5),4,-2))
   return(apply(profit,2,sum))
 }
-
-play_dice4(100)
 ```
 
 #Part b: 
@@ -144,6 +136,25 @@ print(play_dice4(3))
 print(play_dice4(3000))
 ```
 #Part c:
+First need to edit the functions above to account for a set seed
 ```{r}
+set.seed(0)
+#c(play_dice(3),play_dice(3000))
+#c(play_dice2(3),play_dice2(3000))
+#c(play_dice3(3),play_dice3(3000))
+#c(play_dice4(3),play_dice4(3000))
 
+print("v1")
+play_dice(4)
+print("v2")
+play_dice2(4)
+print("v3")
+play_dice3(4)
+print("v4")
+play_dice4(4)
+```
+
+```{r}
+set.seed(0)
+play_dice(10)
 ```
