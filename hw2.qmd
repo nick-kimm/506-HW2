@@ -98,22 +98,44 @@ print(test)
 
 #Version 4: Apply function
 ```{r}
+#' Version 4 Dice Game
+#'Will create a matrix that will replace any value of a 3 or a 5 to be 4 and anything else to -2 as that would be how much you would profit or loose in playing this game. Then we'll use the apply function to sum over all these values down the column to get our total winnings.
+#' @param x 
+#'
+#' @return Total winnings
+#'
+#' @examples rolls = 6 4 6 3 
+#' profit = [-2 -2 -2 4]^T
+#' output = -2
 play_dice4 <- function(x){
   rolls <- sample(1:6,10,replace=TRUE)
   profit <- matrix(ifelse((rolls==3|rolls==5),4,-2))
-  return(apply(t,2,sum))
+  return(apply(profit,2,sum))
 }
 
-play_dice4(10)
-
-
-rolls <- sample(1:6,10,replace=TRUE)
-print(rolls)
-t<-matrix(ifelse((rolls==3|rolls==5),4,-2))
-print(t)
-print(apply(t,2,sum))
-
+play_dice4(100)
 ```
 
+#Part b: 
 
+```{r}
+#Version 1 test:
+print(play_dice(3))
+print(play_dice(3000))
 
+#Version 2 test:
+print(play_dice2(3))
+print(play_dice2(3000))
+
+#Version 3 test:
+print(play_dice3(3))
+print(play_dice3(3000))
+
+#Version 4 test:
+print(play_dice4(3))
+print(play_dice4(3000))
+```
+#Part c:
+```{r}
+
+```
