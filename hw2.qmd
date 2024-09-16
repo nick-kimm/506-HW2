@@ -230,22 +230,45 @@ I think it is a fair game as the average profit of the game should be 50/50 or e
 
 #Part a: 
 ```{r}
-data <- read.csv("/Users/nicholaskim/Documents/STAT 506/HW2/cars.csv")
+cars <- read.csv("/Users/nicholaskim/Documents/STAT 506/HW2/cars.csv")
 
-names(data) <- c("Height","Length","Width","Dive_type","Engine_type","Is_hybrid","Num_fwd_gears","Trans_type","City_mpg","Fuel_type","Highway_mpg","Manual_or_auto","Car_id","Car_make","Model_yr","Horsepower","Torque")
+names(cars) <- c("Height","Length","Width","Dive_type","Engine_type","Is_hybrid","Num_fwd_gears","Trans_type","City_mpg","Fuel_type","Highway_mpg","Manual_or_auto","Car_id","Car_make","Make_n_yr","Model_yr","Horsepower","Torque")
 ```
 
 #Part b:
 ```{r}
-data_r <- data[data[,10]=="Gasoline",]
+cars_r <- cars[cars[,10]=="Gasoline",]
 ```
 
 #Part c:
 ```{r}
-plot(data_r[,11])
-plot(data_r[,11],ylim=c(0,50))
+plot(cars_r[,11])
+plot(cars_r[,11],ylim=c(0,50))
 ```
 From the plot of Highway MPG we can see that there is one outlier point but when looking at the rest of the distribution it looks to fall between a nice range of values and follow some linear trend. For this reason I feel we don't need a transformation of this column. 
+
+#Part d: 
+```{r}
+summary(lm(Highway_mpg~Torque+Horsepower+Height+Length+Width+Model_yr,data=cars_r))
+```
+
+From the summary output we can see that Torque and Highway MPG are statistically significant. Specifically, the estimated coefficient for Torque is close to 0 or -5.102e-02. This means that while keeping all other variables constant then two individuals who differ in Torque by 1 unit are expected to be 5.102e-02 smaller. 
+
+#Part e:
+```{r}
+model2 <- lm(Highway_mpg~Torque*Horsepower+Height+Length+Width+Model_yr,data=cars_r)
+
+summary(model2)
+```
+
+
+```{r}
+plot(cars_r$Torque,cars_r$Highway_mpg,ylim=c(0,50))
+plot(cars_r$Horsepower,cars_r$Highway_mpg,ylim=c(0,50))
+```
+
+
+
 
 
 
