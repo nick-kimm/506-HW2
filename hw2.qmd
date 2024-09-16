@@ -175,16 +175,40 @@ c(play_dice4_seed(3,seed),play_dice4_seed(3000,seed))
 ```
 #Part d:
 
+Low input: x = 1000
 ```{r}
 library(microbenchmark)
 
-x <- 3
+x <- 1000
 seed <- 100
 
 microbenchmark(
-  v1 <- {play_dice_seed(x,seed)},
-  v2 <- {play_dice2_seed(x,seed)},
-  v3 <- {play_dice3_seed(x,seed)},
-  v4 <- {play_dice4_seed(x,seed)},
+  v1 <- play_dice_seed(x,seed),
+  v2 <- play_dice2_seed(x,seed),
+  v3 <- play_dice3_seed(x,seed),
+  v4 <- play_dice4_seed(x,seed)
 )
 ```
+
+From the resulting table above in the case x is a low input (1,000). The fastest performing function was v2 or the function using the vectorized functions in R. The next fastest was v4 followed by v3 and lastly v1. From our discussion in class it is no surprise v1 is the slowest as it is reassigning the object winnings for every integer in the vector rolls. The apply function is not too far behind from the vectorized solution and it's surprising to see the table solution is almost as slow as the looping solution case. 
+
+
+Large input: x = 100,000
+
+```{r}
+x <- 100000
+seed <- 100
+
+microbenchmark(
+  v1 <- play_dice_seed(x,seed),
+  v2 <- play_dice2_seed(x,seed),
+  v3 <- play_dice3_seed(x,seed),
+  v4 <- play_dice4_seed(x,seed)
+)
+```
+
+From the table above we can see that by far and away v2 or the vectorized functions are our best route in terms of speed. The other options in the table solutions (v3) and the apply function (v4) are almost just as fast in terms of efficiency while the looping solution is by far the slowest solution. From this we can conclude we should try and use vectorized functions in R if possible, especially if speed is of concern. 
+
+#Part e: 
+
+
