@@ -236,8 +236,16 @@ names(data) <- c("Height","Length","Width","Dive_type","Engine_type","Is_hybrid"
 ```
 
 #Part b:
+```{r}
+data_r <- data[data[,10]=="Gasoline",]
+```
 
-
+#Part c:
+```{r}
+plot(data_r[,11])
+plot(data_r[,11],ylim=c(0,50))
+```
+From the plot of Highway MPG we can see that there is one outlier point but when looking at the rest of the distribution it looks to fall between a nice range of values and follow some linear trend. For this reason I feel we don't need a transformation of this column. 
 
 
 
