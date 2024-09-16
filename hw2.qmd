@@ -228,5 +228,19 @@ I think it is a fair game as the average profit of the game should be 50/50 or e
 
 ##Question 2
 
+#Part a: 
+```{r}
+data <- read.csv("/Users/nicholaskim/Documents/STAT 506/HW2/cars.csv")
+
+names(data) <- c("Height","Length","Width","Dive_type","Engine_type","Is_hybrid","Num_fwd_gears","Trans_type","City_mpg","Fuel_type","Highway_mpg","Manual_or_auto","Car_id","Car_make","Model_yr","Horsepower","Torque")
+```
+
+#Part b:
+
+
+
+
+
+
 
 
