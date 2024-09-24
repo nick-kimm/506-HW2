@@ -242,13 +242,14 @@ cars_r <- cars[cars[,10]=="Gasoline",]
 
 #Part c:
 ```{r}
-plot(cars_r[,11])
-plot(cars_r[,11],ylim=c(0,50))
+hist(cars_r$Highway_mpg,freq=TRUE)
+hist(cars_r$Highway_mpg[cars_r$Highway_mpg<100],breaks=10,freq=TRUE)
 ```
-From the plot of Highway MPG we can see that there is one outlier point but when looking at the rest of the distribution it looks to fall between a nice range of values and follow some linear trend. For this reason I feel we don't need a transformation of this column. 
+From the plot of Highway MPG we can see that there is one outlier point but when looking at the rest of the distribution it looks to fall between a nice range of values and follow somewhat of a normal distribution. For this reason I feel we don't need a transformation of this column. 
 
 #Part d: 
 ```{r}
+Model_yr = as.factor(cars_r$Model_yr)
 model <- lm(Highway_mpg~Height+Length+Width+Model_yr+Horsepower+Torque,data=cars_r)
 summary(model)
 ```
