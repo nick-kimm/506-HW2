@@ -12,7 +12,9 @@ Link to my GitHub: <https://github.com/nick-kimm/506-HW2>.
 
 Let’s play a dice game. It costs $2 to play. You roll a single 6-sided die.
 
--On a roll of 3 or 5, you win twice your roll.
+-On a roll of 3 or 5, you win twice your roll. 
+ex. roll = 3, profit = 3*2 = 6
+roll = 5, profit = 5*2 = 10
 -On any other roll, you lose.
 
 The input and output should be:
@@ -24,7 +26,7 @@ Output: Total winnings
 #Version 1: Loop
 ```{r}
 #' Version 1 Dice Game
-#'Will implement the Dice Game using a for loop. Will check each index in the simulated rolls and will check if that number if either a 3 or a 5. If it is then it'll increase the total winnings by 4 as that is the net profit from that roll. If it neither then it'll subtract 2 from the winnings as that is the cost of this situation. 
+#'Will implement the Dice Game using a for loop. Will check each index in the simulated rolls and will check if that number if either a 3 or a 5. If it is then it'll increase the total winnings by 2 times the value of the roll. If it neither then it'll subtract 2 from the winnings as that is the cost of this situation. 
 #'
 #' @param x (number of rolls)
 #'
@@ -34,7 +36,7 @@ play_dice <- function(x){
   winnings <- 0
   for (i in 1:x){
     if (rolls[i]==3 | rolls[i]==5){
-      winnings <- winnings + 4
+      winnings <- winnings + rolls[i]*2
     }
     else{
       winnings <- winnings - 2
@@ -47,18 +49,18 @@ play_dice <- function(x){
 #Version 2: Vectorized functions in R
 ```{r}
 #' Version 2 Dice Game
-#'Samples the random roll for x number of rolls. Next will calculate the winnings by checking if the roll isn't a 3 or a 5 and then multiplying it by -2 as you'll lose that much in this game. Then it'll add it to the rolls that are 3 or a 5 by 4 as you would double the amount you put in ($2). Finally sum over this whole vector to get your total winnings after x rolls
+#'Samples the random roll for x number of rolls. Next will calculate the winnings by checking if the roll isn't a 3 or a 5 and then multiplying it by -2 as you'll lose that much in this game. Then it'll add it to the rolls that are 3 or a 5 either by 6 or 10 depending on if you rolled a 3 or a 5. Finally sum over this whole vector to get your total winnings after x rolls
 #' @param x 
 #'
 #' @return Total winnings 
 #'
 #' @examples rolls <- 2 5 2 6 4 2 1 3 5 6
-#' winnings <- sum(-2 0 -2 -2 -2 -2 -2 0 0 -2 (1st conditionals) + 0 4 0 0 0 0 0 4 4 0 (2nd conditional))
-#' winnings <- sum(-2 4 -2 -2 -2 -2 -2 4 4 -2)
-#' winnings <- -2 
+#' winnings <- sum(-2 0 -2 -2 -2 -2 -2 0 0 -2 (1st conditionals) + 0 0 0 0 0 0 0 6 0 0 (3 check) + 0 10 0 0 0 0 0 0 10 0 (5 check))
+#' winnings <- sum(-2 10 -2 -2 -2 -2 -2 6 10 -2)
+#' winnings <- 12 
 play_dice2 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
-  winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4)
+  winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3)*6+(rolls==5)*10)
   return(winnings)
 }
 ```
@@ -76,29 +78,29 @@ play_dice2 <- function(x){
 #' roll_t <- 1 2 3 4 5 6
 #'           1 0 1 1 1 1
 #'
-#'output <- (0+1)*4- (1+1+1+1)*2
-#'.      <- -4
+#'output <- (1*6 + 1*10) - (1+1+1+1)*2
+#'.      <- 8
 play_dice3 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
   roll_t<-table(factor(rolls, levels = 1:6))
-  return((roll_t[["3"]]+roll_t[["5"]])*4-(roll_t[["1"]]+roll_t[["2"]]+roll_t[["4"]]+roll_t[["6"]])*2)
+  return((roll_t[["3"]]*6+roll_t[["5"]]*10)-(roll_t[["1"]]+roll_t[["2"]]+roll_t[["4"]]+roll_t[["6"]])*2)
 }
 ```
 
 #Version 4: Apply function
 ```{r}
 #' Version 4 Dice Game
-#'Will create a matrix that will replace any value of a 3 or a 5 to be 4 and anything else to -2 as that would be how much you would profit or loose in playing this game. Then we'll use the apply function to sum over all these values down the column to get our total winnings.
+#'Will create a matrix that will replace any value of a 3 or a 5 to be 6 or 10 respectively and anything else to -2 using the built in ifelse function as that would be how much you would profit or loose in playing this game. Then we'll use the apply function to sum over all these values down the column to get our total winnings.
 #' @param x 
 #'
 #' @return Total winnings
 #'
-#' @examples rolls <- 6 4 6 3 
-#' profit <- [-2 -2 -2 4]^T
-#' output <- -2
+#' @examples rolls <- 6 4 6 3 5
+#' profit <- [-2 -2 -2 6 10]^T
+#' output <- 10
 play_dice4 <- function(x){
   rolls <- sample(1:6,x,replace=TRUE)
-  profit <- matrix(ifelse((rolls==3|rolls==5),4,-2))
+  profit <- matrix(ifelse(rolls==3,6,ifelse(rolls==5,10,-2)))
   return(apply(profit,2,sum))
 }
 ```
@@ -119,7 +121,7 @@ c(play_dice3(3),play_dice3(3000))
 c(play_dice4(3),play_dice4(3000))
 ```
 #Part c:
-First need to edit the functions above to account for a set seed
+First need to edit the functions above to account for a set seed which we'll do by adding a another parameter value in the functions we wrote above. 
 ```{r}
 seed=0
 
@@ -129,7 +131,7 @@ play_dice_seed <- function(x,seed){
   winnings <- 0
   for (i in 1:x){
     if (rolls[i]==3 | rolls[i]==5){
-      winnings <- winnings + 4
+      winnings <- winnings + rolls[i]*2
     }
     else{
       winnings <- winnings - 2
@@ -141,7 +143,7 @@ play_dice_seed <- function(x,seed){
 play_dice2_seed <- function(x,seed){
   set.seed(seed)
   rolls <- sample(1:6,x,replace=TRUE)
-  winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3 | rolls==5)*4)
+  winnings <- sum((rolls!=3 & rolls!=5)*-2+(rolls==3)*6+(rolls==5)*10)
   return(winnings)
 }
 
@@ -149,13 +151,13 @@ play_dice3_seed <- function(x,seed){
   set.seed(seed)
   rolls <- sample(1:6,x,replace=TRUE)
   roll_t<-table(factor(rolls, levels = 1:6))
-  return((roll_t[["3"]]+roll_t[["5"]])*4-(roll_t[["1"]]+roll_t[["2"]]+roll_t[["4"]]+roll_t[["6"]])*2)
+  return((roll_t[["3"]]*6+roll_t[["5"]]*10)-(roll_t[["1"]]+roll_t[["2"]]+roll_t[["4"]]+roll_t[["6"]])*2)
 }
 
 play_dice4_seed <- function(x,seed){
   set.seed(seed)
   rolls <- sample(1:6,x,replace=TRUE)
-  profit <- matrix(ifelse((rolls==3|rolls==5),4,-2))
+  profit <- matrix(ifelse(rolls==3,6,ifelse(rolls==5,10,-2)))
   return(apply(profit,2,sum))
 }
 ```
@@ -190,7 +192,7 @@ microbenchmark(
 )
 ```
 
-From the resulting table above in the case x is a low input (1,000). The fastest performing function was v2 or the function using the vectorized functions in R. The next fastest was v4 followed by v3 and lastly v1. From our discussion in class it is no surprise v1 is the slowest as it is reassigning the object winnings for every integer in the vector rolls. The apply function is not too far behind from the vectorized solution and it's surprising to see the table solution is almost as slow as the looping solution case. 
+From the resulting table above in the case x is a low input (1,000). The fastest performing function was v2 or the function using the vectorized functions in R. The next fastest was v3 followed by v4 and lastly v1. From our discussion in class it is no surprise v1 is the slowest as it is reassigning the object winnings for every integer in the vector rolls. The apply function is not too far behind from the vectorized solution and it's surprising to see the table solution is almost as slow as the looping solution case. 
 
 
 Large input: x = 100,000
@@ -219,12 +221,11 @@ profit <- vector(length=nsim)
 
 for (i in 1:nsim){
   profit[i] <- play_dice2(x)
-}
-
-mean(profit)
+}  
+print(mean(profit))
 ```
 
-I think it is a fair game as the average profit of the game should be 50/50 or equal to zero. After running the game 10,000 times in a Monte Carlo simulation we can see that the mean is zero.  
+I think it is more than a fair game because from the mean after multiple simulations you are returning a profit instead of loosing money. If anything this game would be bad for the house as they would be loosing money on average. 
 
 ##Question 2
 
@@ -279,7 +280,7 @@ emmip(model2, Torque~Horsepower)
 
 #Part f:
 ```{r}
-design_mat <- data.frame(cars_r[,1:3],cars_r[,16:18])
+design_mat <- data.frame(cars_r[,1:3],cars_r[,16],cars_r[,18:19])
 #adding the intercept column in first column to this reduced dataset
 #made it a matrix to then do matrix multiplication with 
 design_mat <- as.matrix(cbind(Intercept = rep(1,nrow(cars_r)), design_mat)) 
