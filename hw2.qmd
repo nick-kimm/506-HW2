@@ -244,29 +244,37 @@ cars_r <- cars[cars[,10]=="Gasoline",]
 ```{r}
 hist(cars_r$Highway_mpg,freq=TRUE)
 hist(cars_r$Highway_mpg[cars_r$Highway_mpg<100],breaks=10,freq=TRUE)
+hist(log(cars_r$Highway_mpg[cars_r$Highway_mpg<100]),breaks=10,freq=TRUE)
 ```
-From the plot of Highway MPG we can see that there is one outlier point but when looking at the rest of the distribution it looks to fall between a nice range of values and follow somewhat of a normal distribution. For this reason I feel we don't need a transformation of this column. 
+From the plot of Highway MPG we can see that there is one outlier point and the data is slightly skewed to the right. Thus it might be best to log transform the variable and remove the outlier to normalize the data. 
+
+```{r}
+#removing outlier
+cars_r<-cars_r[cars_r$Highway_mpg<100, ]
+#log transform of Highway mpg
+cars_r$log_hmpg<-log(cars_r$Highway_mpg)
+```
 
 #Part d: 
 ```{r}
 Model_yr = as.factor(cars_r$Model_yr)
-model <- lm(Highway_mpg~Height+Length+Width+Model_yr+Horsepower+Torque,data=cars_r)
+model <- lm(log_hmpg~Height+Length+Width+Model_yr+Horsepower+Torque,data=cars_r)
 summary(model)
 ```
 
-From the summary output we can see that Torque and Highway MPG are statistically significant. Specifically, the estimated coefficient for Torque is -5.102e-02. This means that while keeping all other variables constant then two individuals who differ in Torque by 1 unit are expected to be 5.102e-02 smaller. 
+From the summary output we can see that Torque and Highway MPG are statistically significant. Specifically, the estimated coefficient for Torque is -5.303e+01. This means that while keeping all other variables constant then two individuals who differ in Torque by 1 unit are expected to be 5.303e+01 smaller. 
 
 #Part e:
 ```{r}
-model2 <- lm(Highway_mpg~Torque*Horsepower+Height+Length+Width+Model_yr,data=cars_r)
+model2 <- lm(log_hmpg~Torque*Horsepower+Height+Length+Width+Model_yr,data=cars_r)
 
 summary(model2)
 ```
 
 
 ```{r}
-plot(cars_r$Torque,cars_r$Highway_mpg,col="red",ylim=c(0,50))
-points(cars_r$Horsepower,cars_r$Highway_mpg,col="green",ylim=c(0,50))
+library(emmeans)
+emmip(model2, Torque~Horsepower)
 ```
 
 #Part f:
