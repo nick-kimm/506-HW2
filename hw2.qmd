@@ -192,7 +192,7 @@ microbenchmark(
 )
 ```
 
-From the resulting table above in the case x is a low input (1,000). The fastest performing function was v2 or the function using the vectorized functions in R. The next fastest was v3 followed by v4 and lastly v1. From our discussion in class it is no surprise v1 is the slowest as it is reassigning the object winnings for every integer in the vector rolls. The apply function is not too far behind from the vectorized solution and it's surprising to see the table solution is almost as slow as the looping solution case. 
+From the resulting table above in the case x is a low input (1,000). The fastest performing function was v2 or the function using the vectorized functions in R. The next fastest was v4 followed by v3 and lastly v1. From our discussion in class it is no surprise v1 is the slowest as it is reassigning the object winnings for every integer in the vector rolls. The apply function is not too far behind from the vectorized solution and it's surprising to see the table solution is almost as slow as the looping solution case. 
 
 
 Large input: x = 100,000
