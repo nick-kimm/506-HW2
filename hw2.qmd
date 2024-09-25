@@ -258,12 +258,9 @@ cars_r$log_hmpg<-log(cars_r$Highway_mpg)
 
 #Part d: 
 ```{r}
-Model_yr = as.factor(cars_r$Model_yr)
-model <- lm(log_hmpg~Height+Length+Width+Model_yr+Horsepower+Torque,data=cars_r)
+model <- lm(log_hmpg~Height+Length+Width+as.factor(Model_yr)+Horsepower+Torque,data=cars_r)
 summary(model)
 ```
-
-
 From the summary output we can see that Torque and Highway MPG are statistically significant. Specifically, the estimated coefficient for Torque is -5.303e+01. This means that while keeping all other variables constant then two individuals who differ in Torque by 1 unit are expected to be 5.303e+01 smaller. 
 
 #Part e:
@@ -285,7 +282,14 @@ emmip(model2, Torque~Horsepower,at = list(Horsepower = c(100,270,640),Torque = c
 ```
 #Part f:
 ```{r}
-design_mat <- data.frame(cars_r[,1:3],cars_r[,16],cars_r[,17:18])
+#creating the dummy variables manually for Model years
+is_10 <- ifelse(cars_r[,16]==2010,1,0)
+is_11 <-ifelse(cars_r[,16]==2011,1,0)
+is_12 <- ifelse(cars_r[,16]==2012,1,0)
+
+#creating our design matrix with all other variables in our model excluding our intercept
+design_mat <- data.frame(cars_r[,1:3],is_10,is_11,is_12,cars_r[,17:18])
+
 #adding the intercept column in first column to this reduced dataset
 #made it a matrix to then do matrix multiplication with 
 design_mat <- as.matrix(cbind(Intercept = rep(1,nrow(cars_r)), design_mat)) 
@@ -299,6 +303,8 @@ data.frame(manual_beta_est = beta_hat,
 ```
 From the outputs above we can see that the beta estimates from our manual solution is the same as the coefficients from our lm() model. For example, the intercepts are both -5.302916e+01 and Heights are 4.088913e-04 in both our models. 
 
-
+```{r}
+model.matrix(model)
+```
 
 
