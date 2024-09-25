@@ -243,9 +243,9 @@ cars_r <- cars[cars[,10]=="Gasoline",]
 
 #Part c:
 ```{r}
-hist(cars_r$Highway_mpg,freq=TRUE,title="Frequency plot of Highway MPG")
-hist(cars_r$Highway_mpg[cars_r$Highway_mpg<100],breaks=10,freq=TRUE,title="Frequency plot of Highway MPG excluding Outlier")
-hist(log(cars_r$Highway_mpg[cars_r$Highway_mpg<100]),breaks=10,freq=TRUE,title="Frequency plot of Highway MPG with Log Transform")
+hist(cars_r$Highway_mpg,freq=TRUE,main="Frequency plot of Highway MPG")
+hist(cars_r$Highway_mpg[cars_r$Highway_mpg<100],breaks=10,freq=TRUE,main="Frequency plot of Highway MPG excluding Outlier")
+hist(log(cars_r$Highway_mpg[cars_r$Highway_mpg<100]),breaks=10,freq=TRUE,main="Frequency plot of Highway MPG with Log Transform")
 ```
 From the plot of Highway MPG we can see that there is one outlier point and the data is slightly skewed to the right. Thus it might be best to log transform the variable and remove the outlier to normalize the data. 
 
