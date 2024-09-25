@@ -263,6 +263,7 @@ model <- lm(log_hmpg~Height+Length+Width+Model_yr+Horsepower+Torque,data=cars_r)
 summary(model)
 ```
 
+
 From the summary output we can see that Torque and Highway MPG are statistically significant. Specifically, the estimated coefficient for Torque is -5.303e+01. This means that while keeping all other variables constant then two individuals who differ in Torque by 1 unit are expected to be 5.303e+01 smaller. 
 
 #Part e:
@@ -272,27 +273,31 @@ model2 <- lm(log_hmpg~Torque*Horsepower+Height+Length+Width+Model_yr,data=cars_r
 summary(model2)
 ```
 
-
+First looking at the range of values for Torque and Horsepower
 ```{r}
 library(emmeans)
-emmip(model2, Torque~Horsepower)
+summary(cars_r$Torque)
+summary(cars_r$Horsepower)
 ```
-
+Now plotting the interaction plot of 3 different values of Horsepower
+```{r}
+emmip(model2, Torque~Horsepower,at = list(Horsepower = c(100,270,640),Torque = c(95,260,770)))
+```
 #Part f:
 ```{r}
-design_mat <- data.frame(cars_r[,1:3],cars_r[,16],cars_r[,18:19])
+design_mat <- data.frame(cars_r[,1:3],cars_r[,16],cars_r[,17:18])
 #adding the intercept column in first column to this reduced dataset
 #made it a matrix to then do matrix multiplication with 
 design_mat <- as.matrix(cbind(Intercept = rep(1,nrow(cars_r)), design_mat)) 
 
-ymat <- cars_r$Highway_mpg
+ymat <- cars_r$log_hmpg
 
 beta_hat <- solve(t(design_mat)%*%design_mat)%*%t(design_mat)%*%ymat
 
 data.frame(manual_beta_est = beta_hat, 
            lm_beta_est = model$coefficients)
 ```
-From the outputs above we can see that the beta estimates from our manual solution is the same as the coefficients from our lm() model. For example, the intercepts are both -1.605e+03 and Heights are 9.821e-03 in both our models. 
+From the outputs above we can see that the beta estimates from our manual solution is the same as the coefficients from our lm() model. For example, the intercepts are both -5.302916e+01 and Heights are 4.088913e-04 in both our models. 
 
 
 
