@@ -121,7 +121,7 @@ c(play_dice3(3),play_dice3(3000))
 c(play_dice4(3),play_dice4(3000))
 ```
 #Part c:
-First need to edit the functions above to account for a set seed which we'll do by adding a another parameter value in the functions we wrote above. 
+First need to edit the functions above to account for a set seed which we'll do by adding a another parameter value in the functions we wrote above. This way the randomness will be controlled calling running rolls in each function
 ```{r}
 seed=0
 
@@ -243,9 +243,9 @@ cars_r <- cars[cars[,10]=="Gasoline",]
 
 #Part c:
 ```{r}
-hist(cars_r$Highway_mpg,freq=TRUE)
-hist(cars_r$Highway_mpg[cars_r$Highway_mpg<100],breaks=10,freq=TRUE)
-hist(log(cars_r$Highway_mpg[cars_r$Highway_mpg<100]),breaks=10,freq=TRUE)
+hist(cars_r$Highway_mpg,freq=TRUE,title="Frequency plot of Highway MPG")
+hist(cars_r$Highway_mpg[cars_r$Highway_mpg<100],breaks=10,freq=TRUE,title="Frequency plot of Highway MPG excluding Outlier")
+hist(log(cars_r$Highway_mpg[cars_r$Highway_mpg<100]),breaks=10,freq=TRUE,title="Frequency plot of Highway MPG with Log Transform")
 ```
 From the plot of Highway MPG we can see that there is one outlier point and the data is slightly skewed to the right. Thus it might be best to log transform the variable and remove the outlier to normalize the data. 
 
