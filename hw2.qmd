@@ -301,7 +301,7 @@ beta_hat <- solve(t(design_mat)%*%design_mat)%*%t(design_mat)%*%ymat
 data.frame(manual_beta_est = beta_hat, 
            lm_beta_est = model$coefficients)
 ```
-From the outputs above we can see that the beta estimates from our manual solution is the same as the coefficients from our lm() model. For example, the intercepts are both -5.302916e+01 and Heights are 4.088913e-04 in both our models. 
+From the outputs above we can see that the beta estimates from our manual solution is the same as the coefficients from our lm() model. For example, the intercepts are both 3.508331e+00 and Heights are 4.115953e-04 in both our models. 
 
 
 
