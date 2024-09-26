@@ -261,7 +261,7 @@ cars_r$log_hmpg<-log(cars_r$Highway_mpg)
 model <- lm(log_hmpg~Height+Length+Width+as.factor(Model_yr)+Horsepower+Torque,data=cars_r)
 summary(model)
 ```
-From the summary output we can see that Torque and Highway MPG are statistically significant. Specifically, the estimated coefficient for Torque is -5.303e+01. This means that while keeping all other variables constant then two individuals who differ in Torque by 1 unit are expected to be 5.303e+01 smaller. 
+From the summary output we can see that Torque and Highway MPG are statistically significant. Specifically, the estimated coefficient for Torque is -2.305e+03. This means that while keeping all other variables constant then two individuals who differ in Torque by 1 unit are expected to be 2.305e+03 smaller. 
 
 #Part e:
 ```{r}
@@ -280,6 +280,8 @@ Now plotting the interaction plot of 3 different values of Horsepower
 ```{r}
 emmip(model2, Torque~Horsepower,at = list(Horsepower = c(100,270,640),Torque = c(95,260,770)))
 ```
+Interestingly, we can see that for smaller values of Torque we have larger values of Horsepower thus a negative relationship between the two.
+
 #Part f:
 ```{r}
 #creating the dummy variables manually for Model years
